@@ -8,13 +8,12 @@ var express         =       require("express"),
 
 
  router.get("/",function(req,res){
-    Campground.find({},function(err,allCampgrounds){
-        if(err){
-            console.log(err)
-        }
-        else{
+    Campground.find({}).then((allCampgrounds)=>{
+        
             res.render("campground/campgrounds",{campgrounds:allCampgrounds})
-        }
+        
+    }).then((err)=>{
+        console.log(err)
     })
 
     
@@ -50,8 +49,8 @@ var express         =       require("express"),
  })
  
  router.get("/:id",function(req,res){
- Campground.findById(ObjectId(req.params.id)).populate("comments").exec(function(err,foundCampground){
- 
+//  Campground.findById(ObjectId(req.params.id)).populate("comments").exec(function(err,foundCampground){
+    Campground.findById(ObjectId(req.params.id)).populate("comments").exec(function(err,foundCampground){
      if(err){
          console.log(err)
      }
@@ -65,32 +64,30 @@ var express         =       require("express"),
  //EDIT CAMPGROUND
 
 router.get("/:id/edit",middleware.isAuthrised1,function(req,res){
-Campground.findById(req.params.id,function(err,camp){
+Campground.findById(req.params.id).then((camp)=>{
     res.render("campground/edit",{campground:camp})
 })})
 
 router.put("/:id",middleware.isAuthrised1,function(req,res){
-Campground.findByIdAndUpdate(req.params.id,req.body.campground,function(err,camp){
-    if(err){
-        res.redirect("/campgrounds")
-    }
-    else{
+Campground.findByIdAndUpdate(req.params.id,req.body.campground).then((camp)=>{
         req.flash("success","You successfully edited campground.")
         res.redirect("/campgrounds/"+req.params.id)
     //res.render("campground/show",{Campgrounds:camp})
-    }
+}).catch(err=>{
+    res.redirect("/campgrounds")
 })
 })
  
 router.delete("/:id",middleware.isAuthrised1,function(req,res){
-Campground.findByIdAndRemove(req.params.id,function(err,camps){
-    if(err){
-        res.redirect("/campgrounds")
-    }
-    else{
+Campground.findByIdAndRemove(req.params.id).then((camps)=>{
+    
         req.flash("success","You successfully deleted campground.")
      res.redirect("/campgrounds")
-    }})})
+    }).catch(err=>{
+        
+            res.redirect("/campgrounds")
+        
+    })})
 
     
     

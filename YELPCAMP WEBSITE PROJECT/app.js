@@ -43,8 +43,8 @@ console.log("***************** DO WHEN REQUIRED ******************")
     app.use(express.static(__dirname + "/public"))
     app.use(bodyParser.urlencoded({extended:true}))
 app.set("view engine","ejs")
-mongoose.connect("mongodb://localhost:27017/yelp_camp_12",{useNewUrlParser:true})
-
+// mongoose.connect("mongodb://localhost:27017/yelp_camp_12",{useNewUrlParser:true})
+mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp_12",{useNewUrlParser:true})
 
 console.log("**********************")
 console.log("one time use")
