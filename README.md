@@ -4,6 +4,7 @@
 2. It mainly involve following functionalities:
    - User can signup.
    - User can signin.
+   - Uer can signout.
    - Users can add their yelp camps.
    - Users can view any available yelp camps.
    - User you have added yelp camp has the permission to edit to delete that yelp camp.
